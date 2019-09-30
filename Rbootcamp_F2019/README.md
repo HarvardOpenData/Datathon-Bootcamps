@@ -2,7 +2,7 @@
 
 ## What is R?
 
-As a powerful, free language built by statisticians for statisticians, R is an important tool for data scientists and statisticians like us. R is also extremely useful for other tasks like web development through the use of packages. See https://syllabusexplorer.harvard.edu/ or https://r4ds.had.co.nz/index.html for examples of websites and apps built with R Shiny.
+As a powerful, free language built by statisticians for statisticians, R is an important tool for data scientists and statisticians like us. R is also extremely useful for other tasks like web development through the use of packages. See https://syllabusexplorer.harvard.edu/, https://r4ds.had.co.nz/index.html or https://sbilliau.shinyapps.io/Genetics/ for examples of websites and apps built with R.
 
 ## What is RStudio?
 
