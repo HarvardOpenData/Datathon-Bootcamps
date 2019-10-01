@@ -1,0 +1,421 @@
+---
+title: "STAT111 R Bootcamp"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Roodmap
+
+* What is R?
+* Basics and fundmaentals
+* Data exploration exercises and OHs
+
+## What is R?
+
+* Open-source language for statistical computing and graphics
+* Ranked 12th TIOBE index.
+* Built for things statisticians care about:
+    - Vectors and matrices
+    - Linear/non-linear modeling
+    - Statistical tests
+    - Visualization and more!
+* Highly extensible because of packages (and you can write your own, too!)
+
+## R and Stat 111
+* Do not worry if you have no coding experience!
+* Goal of this workshop is to build comfort looking things up and solving your own problems in R
+* Homeworks may involve computation on real/synthetic data to demonstrate inference in practice
+    - Other languages are also allowed (e.g. Python)
+* At OH, Course staff will primarily provide conceptual support with computational problems, NOT debugging code
+
+## RStudio
+* An integrated development environment (IDE) to organize your code, data, plots, files, and more.
+* You can even type your homeworks using RMarkdown!
+
+
+## R Resources
+* DataCamp, whose Chief Data Scientist was a Harvard stat concentrator
+* R for Data Science , the free online book by Grolemund and Wickham.
+* Google and Stackoverflow
+
+## Language Fundamentals
+* Functions and documentation
+* Variables and data types
+* Vectors, matrices, data frames
+* Loops, conditionals, vectorization
+* Plotting
+
+Not covered but worth reading: Factors, lists, pipes, apply() function
+
+## Functions and Documentation
+* Functions take inputs ("arguments") and return an output
+
+\scriptsize
+```{r, echo = TRUE}
+sum(110, 111, 211)
+```
+\normalsize
+* Sometimes, arguments are optional or carry a default value.
+* \textbf{Exercise}: Look up \texttt{rnorm()} and generate 10 i.i.d. N(5, 1) data points. What do \texttt{pnorm(), dnorm()} and \texttt{qnorm()} do?
+(Hint: Use ?rnorm to read documentation)
+
+\pause
+\scriptsize
+```{r, echo = TRUE}
+?rnorm
+rnorm(n = 10, mean = 5, sd = 1)
+pnorm(0.5)
+dnorm(0.5)
+qnorm(0.5)
+```
+
+## Writing Your Own Functions
+\scriptsize
+```{r, echo = TRUE}
+SayHello <- function(name = "world"){
+  # This is a comment
+  # Use ?cat to see what cat do
+  # function will "return" or output the value of the last line
+  # also can use "return()"
+  cat("hello", name)
+}
+SayHello()
+SayHello("Joe and Susan")
+```
+
+## Variables
+* Often store values in "buckets" called variables. 
+    - Represent values without having to retype them
+    - Update a variable if the value changes
+    
+\scriptsize
+```{r, echo = TRUE}
+# Assign or update using "<-"
+# "=" also works
+mu <- 2.56
+y <- rnorm(1, mean = mu)
+pnorm(y, mean = mu)
+# update
+mu <- mu + 1
+pnorm(y, mean = mu)
+print(y)
+```
+
+
+## Basic Data Types
+* Values in R are generally one of the following types: 
+    - Logical:  \texttt{TRUE, FALSE}
+    - Integer:  \texttt{110, 111}
+    - Decimal:  \texttt{3.14}
+    - Complex: \texttt{3+2i}
+    - Character:  \texttt{"joe", "susan"}
+* Use \texttt{class()} to check a value’s type.
+\pause
+* Careful -- not all data types play well together!
+
+\scriptsize
+```{r, echo = TRUE}
+# This won’t work
+# "hello" + 1
+# This is okay
+1 + 3+2i + 2.72
+# This is okay, too; logicals are coerced into 1’s and 0’s
+4 + TRUE + FALSE
+```
+
+## Useful Operators for Numerics
+* Operators
+    - Basic operations: +, -, *, /
+    - Exponents: ^
+    - Modulo: %%
+    - Comparisons: <, <=, >, >=, ==, !=
+    - Other functions: exp(), log(), sin(), cos()
+* \textbf{Exercise}: Predict results for the following computations: 
+
+\pause
+\scriptsize
+```{r, echo = TRUE, eval=F}
+110 < 111
+exp(log(-1))
+4 + 12 / 6 %% 3
+```
+
+## Useful Operators for Numerics
+* Operators
+    - Basic operations: +, -, *, /
+    - Exponents: ^
+    - Modulo: %%; Quotient: %/%
+    - Comparisons: <, <=, >, >=, ==, !=
+    - Other functions: exp(), log(), sin(), cos()
+* \textbf{Exercise}: Predict results for the following computations: 
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+110 < 111
+exp(log(-1))
+4 + 12 / 6 %% 3
+```
+
+## Vectors
+* Like in math, a 1d collection of elements of the same type.
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# Create a vector
+my_vector <- vector("numeric", length = 3)
+my_vector
+# my_vector <- numeric(length = 3)
+# Combine vectors
+c(my_vector, -7, 32)
+# Vector arithmetic
+my_vector + 1
+my_vector + c(4, 2, 5)
+```
+
+## Vectors: Naming and Accessing Elements
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+enrollment <- c(586, 328, 51)
+# Give elements names
+names(enrollment) <- c("Stat 110", "Stat 111", "Stat 211")
+# Access Stat 111 enrollment in a few different ways
+enrollment[2]; enrollment["Stat 111"];
+enrollment[c(FALSE, TRUE, FALSE)]
+```
+\textbf{Exercise}: How would you get the enrollment of Stat 110 AND Stat 111?
+\pause
+\tiny
+```{r, echo = TRUE, eval=T}
+enrollment[c(1, 2)]
+enrollment[c("Stat 110", "Stat 111")]
+```
+
+## Vectors: Useful Functions
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# The colon operator or seq() function yield sequences.
+my_vector <- 1:10
+my_other_vector <- seq(1, 10, by = 2)
+
+# Other useful functions
+mean(my_vector)
+var(my_vector)
+summary(my_vector)
+table(my_vector)
+```
+
+## Matrices
+* Like in math, a 2d collection of elements of the same type.
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# Create a matrix
+my_matrix <- matrix(1:6, nrow = 2, ncol = 3, byrow = TRUE)
+# Matrix arithmetic
+my_matrix * 2
+# Matrix multiplication and transpose
+my_matrix %*% t(my_matrix)
+```
+
+## Matrices
+\textbf{Exercise}: Try \texttt{my\_matrix * my\_matrix} ?
+\pause
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# Create a matrix
+my_matrix * my_matrix
+```
+
+## Matrices: Naming and Accessing Elements
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+enrollment = matrix(c(586, 620, 328, 355, 51, 44), nrow = 2)
+rownames(enrollment) = c("2018", "2019")
+colnames(enrollment) = c("Stat 110", "Stat 111", "Stat 211")
+enrollment
+```
+\normalsize
+* Predict the following
+
+\scriptsize
+```{r, echo = TRUE, eval=F}
+enrollment[1, 2]
+enrollment["2020", "Stat 110"]
+enrollment[2, ]
+```
+
+
+## Matrices: Useful Functions
+
+\scriptsize
+```{r, echo = TRUE, eval=F}
+# Merge matrices together; also see rbind()
+enrollment = cbind(enrollment, "Stat 139" = c(152, 175))
+```
+```{r, echo = TRUE, eval=F}
+# You can guess what these do
+dim(); nrow(); ncol()
+rowSums(); colSums()
+```
+
+## Matrices: Useful Functions
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# Merge matrices together; also see rbind()
+enrollment = cbind(enrollment, "Stat 139" = c(152, 175))
+```
+```{r, echo = TRUE, eval=F}
+# You can guess what these do
+dim(enrollment); nrow(enrollment); ncol(enrollment)
+rowSums(enrollment); colSums(enrollment)
+```
+
+## Data Frames
+* Like matrices, but columns can be of different types.
+
+\scriptsize
+```{r, echo = TRUE, eval=T}
+# Create a data frame
+my_df <- data.frame("Dept" = c("Stat", "CS", "Gov"),
+ "Enrollment" = c(177, 244, 221))
+```
+```{r, echo = TRUE, eval=F}
+# More commonly, open a file
+my_df <- read.table("filename")
+my_df <- read.csv("filename")
+```
+```{r, echo = TRUE, eval=T}
+# Preview data
+head(my_df); tail(my_df); 
+# View(my_df); str(mu_df)
+```
+
+## Data Frames
+\scriptsize
+```{r, echo = TRUE, eval=T}
+my_df 
+```
+* Predict the following:
+```{r, echo = TRUE, eval=F}
+subset(my_df, Enrollment > 200)
+my_df[nrow(my_df):1, ]
+my_df[sample(nrow(my_df)), ]
+```
+\pause
+```{r, echo = F, eval=T}
+subset(my_df, Enrollment > 200)
+my_df[nrow(my_df):1, ]
+```
+
+## Conditionals: If … Then … Else ...
+\scriptsize
+```{r, echo = T, eval=T}
+x <- rnorm(1)
+x
+if (x > 0) {
+	print("You got a positive number!")
+} else {
+	print("You got a negative number!")
+}
+```
+
+## Loops: Repeat Chunks of Code
+* For loops vs while loops
+
+\scriptsize
+```{r, echo = T, eval=T}
+total <- 0
+for (i in 1:10) {
+	total <- total + i
+}
+print(total)
+
+total <- 0
+i <- 1
+while (i <= 10) {
+	total <- total + i
+	i <- i + 1
+}
+print(total)
+```
+
+
+## Loops vs. Vectorization
+* Vectoriztion: 
+      - Avoid loops/conditionals
+      - Vectorized functions that apply an operation to an entire vector and return a vector.
+      - Cleaner and computationally faster!
+      - See the apply() function for more!
+
+\scriptsize
+```{r, echo = T, eval=T}
+sum(1:10)
+```
+```{r, echo = T, eval=T}
+enrollment
+apply(enrollment, 2, mean)
+```
+
+## Visualization: Plotting with ggplot2
+* R has built-in plotting called base graphics, which follows a “pen-and-paper” model
+* ggplot2 is more modular, layering elements individually
+* Google: "ggglot2 cheatsheet""
+* Highly recommended: Chapter 3 of R for Data Science
+* Install ggplot2 package
+```{r, echo = T, eval=F}
+install.packages("ggplot2")
+library(ggplot2)
+```
+```{r, echo = F, eval=T}
+library(ggplot2)
+```
+
+## ggplot2: The Grammar of Graphics
+\scriptsize
+```{r, echo = T, eval=F}
+graphic <- ggplot(data = <DATA>) + 
+  	<GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+```{r, echo = T, eval=F}
+# Try explore "mgp" data first
+?mgp
+str(mpg)
+```
+```{r, echo = T, eval=T, fig.width=10, fig.height=4}
+# scatterplot: engine displacement vs. highway miles per gallon
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+## ggplot2: The Grammar of Graphics
+* Layer geoms together
+* Mappings can be specified globally or locally
+
+\scriptsize
+```{r, echo = T, eval=T, fig.width=10, fig.height=4}
+# Then add a color aesthetic for class.
+# Other aesthetics you can try include shape, size, and alpha.
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+```
+
+## ggplot2: The Grammar of Graphics
+\scriptsize
+```{r, echo = T, eval=T, fig.width=10, fig.height=4, warning=FALSE, message=FALSE}
+# histogram
+ggplot(data = mpg, mapping = aes(x = displ, fill = class)) +
+geom_histogram()
+# look up geom_histogram, adjust binwidth, boundary...
+```
+
+## Exercises and Data Exploration
+* Logs of all Bluebikes trips in December 2018
+* https://canvas.harvard.edu/files/7228708/
+* Attempt the exercises on the handout and ask a TF if you need help!
