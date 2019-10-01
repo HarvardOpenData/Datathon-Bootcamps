@@ -156,8 +156,12 @@ which(concentration == "Applied Mathematics")
 # This can be done in one line of code.
 ?chisq.test
 
-# Building off of Stephen's bootcamp on data journalism, you can also do Linear regression using R. 
-# We are going to be using the USArrests dataset that's already hardcoded into R. 
+
+### Linear Regression ###
+
+# As a preview of my bootcamp on data journalism and statistics, 
+# you can also do Linear regression using R. We are going to be using the USArrests dataset that's
+# already hardcoded into R. 
 str(USArrests)
 
 # Suppose that we want to predict how many assaults there are going to be in the US using the number 
@@ -175,4 +179,70 @@ abline(mod, col = "red")
 predict(mod, data.frame(Murder = c(20,22)))
 
 # DO: try to use rape to predict the number of murders using rape = 2 and 4
+
+
+
+
+
+### GGPlot2 and Plotly ###
+# Load in the HODP style guide (this is an ongoing project I've been working on).
+source("styleguide.R")
+source("ggplot_example.R")
+
+# GGPlot2 is a very powerful and highly-customizable graphics package. You can also use it in python, 
+# but it's most commonly used in R. Unfortunately there's really no easy way to learn ggplot aside from 
+# just using it a bunch and googling documentation as you need it. 
+library(ggplot2)
+a
+
+# Cool right! This is the code I used to make it. I have all of my data stored in a dataframe called mi. 
+# It looks like this: 
+head(mi)
+
+# I want to plot years on the x axis and candidatevotes on the y axis. I want to plot the points and connect
+# them with lines. I want to make groups by the factor variable party. 
+# can do that with this command. 
+
+p <- ggplot(data=mi, aes(x=year, y=candidatevotes)) + 
+  geom_line(aes(colour = factor(party))) +
+  geom_point(aes(colour = factor(party))) 
+p
+
+# Now that we have a baseline graph, we can spice up our graph with some aesthetic commands
+
+p <- p + scale_color_manual(values = c("#78C4D4", "#EE3838","#4B5973", 'cornflowerblue'),name="Party") +
+  labs(title="MI3 Elections") +
+  xlab("Year") +
+  ylab("Votes") +
+  theme(legend.position="bottom") +
+  theme_hodp()
+p
+
+# To add the HODP logo, run this line of code. It takes around 15s to run and kind of 
+# screws up the plots window, so only run it when you're really sure your static graphic is ready.
+# grid::grid.raster(logo, x = 0.01, y = 0.01, just = c('left', 'bottom'), width = unit(2, 'cm'))
+
+
+# This graph looks dope... I hope you'll agree. But we can make it cooler! ggplot2 objects can be 
+# easily turned into plotly objects. Just load in the plotly library and use the command ggplotly
+library(plotly)
+plotly_p <- ggplotly(p)
+plotly_p
+
+
+# DO: Now it's your turn! Recreate your lm graphic using murder to predict using ggplot. Give your 
+# graphic a title and add the HODP theme. Also convert your ggplot object to plotly
+# Just use this line command to plot the linear model: 
+# stat_smooth(method = "lm", col = "red")
+p <- ggplot(data = USArrests, aes(x= Murder, y= Assault)) + 
+  geom_point() + 
+  labs(title="Assaults vs. Murder") +
+  stat_smooth(method = "lm", col = "red") + 
+  theme_hodp()
+p
+
+ggplotly(p)
+    
+
+
 
