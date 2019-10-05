@@ -1,6 +1,11 @@
+# Seth Billiau RBootcamp Fall 2019
+# https://rstudio.cloud/project/588167
+
 # This is a comment! It doesn't affect your code, but it's very important to annotate your 
 # code so that you and your peers will understand it later
 
+# INSTALL PACKAGES
+# install.packages(c('ggplot2', 'plotly', 'dplyr', 'hrbrthemes', 'magick'))
 ### BASICS ###
 
 # Let's begin by trying some basic operations. Use Command + Enter to run code line by line,
@@ -103,7 +108,10 @@ class(T)
 
 # We usually see dataframes in the context of data that has been created or compiled for us to use
 # in excel spreadsheets or .csv files. We can load .csv files into R using this function 
-enrollment <-read.csv("concentration-enrollment.csv"); enrollment
+
+# If using RstudioCloud, uncomment and run this line of code 
+# setwd("/cloud/project/Rbootcamp_F2019")
+enrollment <- read.csv("concentration-enrollment.csv"); enrollment
 
 # This .csv file shows the number of people enrolled in each concentration from 2010-11 to 2014-15
 # this dataset is courtesy of harvard open data project
@@ -137,8 +145,8 @@ which(concentration == "Applied Mathematics")
 # a new file called "rate.csv." Your newly created file should be in your Rbootcamp folder.
 ?write.csv()
 
- 
-# DO: Next, you will be using the dataset I used for my final R project on Kiva 
+
+# DO: Next, you will be using the dataset I used for an old final R project on Kiva 
 # microfinance loans. You should load the file using read.csv. Clean the data by deleting 
 # the erroneous X and "lamount" columns. Then, visualize the data by plotting a histogram  
 # of loan values with breaks="fd" and xlim = c(0,10000). Title your graph using main= and label the 
@@ -220,6 +228,7 @@ p
 
 # To add the HODP logo, run this line of code. It takes around 15s to run and kind of 
 # screws up the plots window, so only run it when you're really sure your static graphic is ready.
+# UNCOMMENT FOR LOGO
 # grid::grid.raster(logo, x = 0.01, y = 0.01, just = c('left', 'bottom'), width = unit(2, 'cm'))
 
 
@@ -234,15 +243,8 @@ plotly_p
 # graphic a title and add the HODP theme. Also convert your ggplot object to plotly
 # Just use this line command to plot the linear model: 
 # stat_smooth(method = "lm", col = "red")
-p <- ggplot(data = USArrests, aes(x= Murder, y= Assault)) + 
-  geom_point() + 
-  labs(title="Assaults vs. Murder") +
-  stat_smooth(method = "lm", col = "red") + 
-  theme_hodp()
-p
 
-ggplotly(p)
-    
+
 
 
 
