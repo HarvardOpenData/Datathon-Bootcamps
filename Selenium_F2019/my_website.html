@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>
+            My Website!
+        </title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+            td {
+                padding: 10px;
+            }
+            th {
+                padding: 10px;
+            }
+        </style>
+        <script src = "my_script.js"></script>
+    </head>
+
+    <body>
+        <h1>Welcome to my website!</h1>
+        <h3>Look at all of this data that I have</h3>
+        <table id = "static_table">
+            <tr><th>My Input</th><th>My Output</th></tr>
+            <tr><td class = "static_input">1</td><td class = "static_output">2</td></tr>
+            <tr><td class = "static_input">2</td><td class = "static_output">4</td></tr>
+            <tr><td class = "static_input">3</td><td class = "static_output">6</td></tr>
+            <tr><td class = "static_input">4</td><td class = "static_output">8</td></tr>
+            <tr><td class = "static_input">5</td><td class = "static_output">10</td></tr>
+        </table>
+
+        <h3>But wait! I have more data :)</h3>
+        <button id ="btnMore" onclick = "generateTable()">Click me for more data!</button>
+        <table id = "dynamic_table">
+            <tr><th>More Inputs</th> <th>More Outputs</th></tr>
+        </table>
+    </body>
+    
+</html>
